@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[FSAlertView tableView:cellForRowAtIndexPath:]:FSAlertView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "cellView.frame">
+            </PersistentString>
+            <PersistentString
+               value = "self.messageLabel">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FSAlertView tableView:heightForRowAtIndexPath:]:FSAlertView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.messageLabel.frame.origin.x + self.messageLabel.frame.size.height + gapSpace_">
+            </PersistentString>
+            <PersistentString
+               value = "self.messageLabel.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FSAlertView tableView:didSelectRowAtIndexPath:]:FSAlertView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.tag">
+            </PersistentString>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FSAlertView tableView:numberOfRowsInSection:]:FSAlertView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[FSAlertView initWithTitle:message:tag:cancelButtonTitle:otherButtonTitles:]:FSAlertView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "NS_REQUIRES_NIL_TERMINATION">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
