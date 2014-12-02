@@ -21,6 +21,7 @@
 @property (nonatomic,retain) UITableView *btnTableView;
 @property (nonatomic,retain) NSMutableArray *btnList;
 @property (nonatomic,retain) NSString *cancelButtonTitle;
+@property (nonatomic,assign) BOOL hasTwoBtns;
 
 - (id)initWithTitle:(NSString*)title message:(NSString*)message delegate:(id /*<FSAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
 - (void)showInView:(UIView *)view;

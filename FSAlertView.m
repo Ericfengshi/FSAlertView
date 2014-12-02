@@ -11,7 +11,7 @@
 
 #define leftRightSpace_ 22.0f
 #define headerFooterSpace_ 22.0f
-#define cellWidthSpace_ [UIScreen mainScreen].applicationFrame.size.width - leftRightSpace_ - leftRightSpace_
+#define cellWidthSpace_ ([UIScreen mainScreen].applicationFrame.size.width - leftRightSpace_ - leftRightSpace_)
 #define cellHeightSpace_ 44.0f
 #define gapSpace_ 10.0f
 
@@ -22,6 +22,7 @@
 @synthesize btnTableView = _btnTableView;
 @synthesize btnList = _btnList;
 @synthesize cancelButtonTitle = _cancelButtonTitle;
+@synthesize hasTwoBtns = _hasTwoBtns;
 
 -(void)dealloc{
     [super dealloc];
@@ -100,7 +101,13 @@
         if(cancelButtonTitle){
             [self.btnList addObject:cancelButtonTitle];
         }
+        
+        self.hasTwoBtns = self.btnList.count == 2;
+        
         CGFloat tableViewHeight = self.btnList.count*44 + tempHeight;
+        if(self.hasTwoBtns){
+            tableViewHeight = 44 + tempHeight;
+        }
         if(tableViewHeight > [UIScreen mainScreen].applicationFrame.size.height - 44.0f*2 - headerFooterSpace_*2){ // navigationbar-height: 44.0f
             tableViewHeight = [UIScreen mainScreen].applicationFrame.size.height - 44.0f*2 - headerFooterSpace_*2;
         }
@@ -152,8 +159,17 @@
         }else{
             return 0;
         }
-    }else
-        return 44;
+    }else{
+        if (self.hasTwoBtns) {
+            if (indexPath.row == 2) {
+                return 44;
+            }else{/* if (indexPath.row == 4) { */
+                return 0;
+            }
+        }else
+            return 44; 
+    }
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -191,25 +207,70 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
         }else{
-            for (int i=0; i< self.btnList.count; i++) {
-                if (indexPath.row == i+2) {
-                    cell.textLabel.text = [self.btnList objectAtIndex:i];
-                    if(self.cancelButtonTitle && indexPath.row == self.btnList.count+1){
-                        cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
-                    }else{
-                        cell.textLabel.font = [UIFont systemFontOfSize:13.0];
-                    }
-                    cell.textLabel.textColor = [UIColor colorWithRed:0/255.0f green:122/255.0f blue:255/255.0f alpha:1.0];
-                    cell.textLabel.textAlignment = UITextAlignmentCenter;
-                    cell.textLabel.backgroundColor = [UIColor clearColor];
+            if (self.hasTwoBtns) {
+                if (indexPath.row == 2) {
+                    UIView *cellView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, cellWidthSpace_, cellHeightSpace_)] autorelease];
                     
-                    // add underline
+                    UIButton *leftBtn = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, cellWidthSpace_/2, cellHeightSpace_)] autorelease];
+                    UILabel *leftLabel = [[[UILabel alloc] initWithFrame:leftBtn.frame] autorelease];
+                    leftLabel.backgroundColor = [UIColor clearColor];
+                    leftLabel.font = [UIFont systemFontOfSize:16.0f];
+                    leftLabel.textAlignment = UITextAlignmentCenter;
+                    leftLabel.textColor = [UIColor colorWithRed:0/255.0f green:122/255.0f blue:255/255.0f alpha:1.0];
+                    leftLabel.numberOfLines = 0;
+                    leftLabel.text = [self.btnList objectAtIndex:0];
+                    [leftBtn addSubview:leftLabel];
+                    [leftBtn addTarget:self action:@selector(leftBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+                    [cellView addSubview:leftBtn];
+                    
+                    UIButton *rightBtn = [[[UIButton alloc] initWithFrame:CGRectMake(cellWidthSpace_/2+1, 0, cellWidthSpace_/2-1, cellHeightSpace_)] autorelease];
+                    UILabel *rightLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, cellWidthSpace_/2-1, cellHeightSpace_)] autorelease];
+                    rightLabel.backgroundColor = [UIColor clearColor];
+                    rightLabel.font = [UIFont systemFontOfSize:16.0f];
+                    rightLabel.textAlignment = UITextAlignmentCenter;
+                    rightLabel.textColor = [UIColor colorWithRed:0/255.0f green:122/255.0f blue:255/255.0f alpha:1.0];
+                    rightLabel.numberOfLines = 0;
+                    rightLabel.text = [self.btnList objectAtIndex:1];
+                    [rightBtn addSubview:rightLabel];
+                    [rightBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+                    [cellView addSubview:rightBtn];
+                    
+                    // add underline 
                     UIImageView *imgView = [[[UIImageView alloc]initWithFrame:CGRectMake( 0, cellHeightSpace_-1, cellWidthSpace_, 1)] autorelease];
                     imgView.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
-                   [cell addSubview:imgView];
-
+                    [cellView addSubview:imgView];
+                    
+                    // add underline Vertical
+                    UIImageView *imgViewVertical = [[[UIImageView alloc] initWithFrame:CGRectMake( cellWidthSpace_/2, 0, 1, cellHeightSpace_)] autorelease];
+                    imgViewVertical.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
+                    [cellView addSubview:imgViewVertical];
+                    
+                    cell.accessoryView = cellView;
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    
+                }
+            }else{
+                for (int i=0; i< self.btnList.count; i++) {
+                    if (indexPath.row == i+2) {
+                        cell.textLabel.text = [self.btnList objectAtIndex:i];
+                        if(self.cancelButtonTitle && indexPath.row == self.btnList.count+1){
+                            cell.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:13];
+                        }else{
+                            cell.textLabel.font = [UIFont systemFontOfSize:13.0];
+                        }
+                        cell.textLabel.textColor = [UIColor colorWithRed:0/255.0f green:122/255.0f blue:255/255.0f alpha:1.0];
+                        cell.textLabel.textAlignment = UITextAlignmentCenter;
+                        cell.textLabel.backgroundColor = [UIColor clearColor];
+                        
+                        // add underline
+                        UIImageView *imgView = [[[UIImageView alloc]initWithFrame:CGRectMake( 0, cellHeightSpace_-1, cellWidthSpace_, 1)] autorelease];
+                        imgView.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
+                        [cell addSubview:imgView];
+                        
+                    }
                 }
             }
+
         }
     }
     
@@ -218,17 +279,53 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    // click the cancelButton
-    if(self.cancelButtonTitle && indexPath.row == self.btnList.count+1){
-        [self hideView];
-        return;
+    if (!self.hasTwoBtns) {
+        // click the cancelButton
+        if(self.cancelButtonTitle && indexPath.row == self.btnList.count+1){
+            [self hideView];
+            return;
+        }
+        
+        // delegate event
+        if ([self.delegate respondsToSelector:@selector(fsAlertView:clickedButtonAtIndex:)]) {
+            [self hideView];
+            [self.delegate fsAlertView:self clickedButtonAtIndex:indexPath.row-2+1];
+        }
     }
+}
 
+#pragma mark -
+#pragma mark - hasTwoBtns click event
+
+/**
+ * leftBtnClick UIControlEventTouchUpInside
+ * @param UIButton
+ * @return
+ */
+-(void)leftBtnClick:(UIButton *)btn{
+    
     // delegate event
     if ([self.delegate respondsToSelector:@selector(fsAlertView:clickedButtonAtIndex:)]) {
         [self hideView];
-        [self.delegate fsAlertView:self clickedButtonAtIndex:indexPath.row-2+1];
-    }    
+        [self.delegate fsAlertView:self clickedButtonAtIndex:1];
+    }
+}
+
+/**
+ * rightBtnClick UIControlEventTouchUpInside
+ * @param UIButton
+ * @return
+ */
+-(void)rightBtnClick:(UIButton *)btn{
+    if (self.cancelButtonTitle) {
+        [self hideView];
+        return;
+    }
+    // delegate event
+    if ([self.delegate respondsToSelector:@selector(fsAlertView:clickedButtonAtIndex:)]) {
+        [self hideView];
+        [self.delegate fsAlertView:self clickedButtonAtIndex:2];
+    }
 }
 
 #pragma mark -
@@ -265,6 +362,14 @@
             if (![self isEqual:subView]) {
                 subView.userInteractionEnabled = NO;
             }
+        }
+        
+        if (self.btnList.count == 0) {
+            [NSTimer scheduledTimerWithTimeInterval:3.0f
+                                             target:self
+                                           selector:@selector(hideView)
+                                           userInfo:nil
+                                            repeats:NO];
         }
     } completion:^(BOOL isFinished){
         

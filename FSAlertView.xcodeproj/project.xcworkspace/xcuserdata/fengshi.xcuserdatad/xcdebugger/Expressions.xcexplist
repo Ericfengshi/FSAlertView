@@ -3,13 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "-[FSAlertView tableView:cellForRowAtIndexPath:]:FSAlertView.m">
+         contextName = "-[FSAlertView initWithTitle:message:tag:cancelButtonTitle:otherButtonTitles:]:FSAlertView.m">
          <PersistentStrings>
             <PersistentString
-               value = "cellView.frame">
-            </PersistentString>
-            <PersistentString
-               value = "self.messageLabel">
+               value = "NS_REQUIRES_NIL_TERMINATION">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -21,6 +18,17 @@
             </PersistentString>
             <PersistentString
                value = "self.messageLabel.frame">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[FSAlertView tableView:cellForRowAtIndexPath:]:FSAlertView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "cellView">
+            </PersistentString>
+            <PersistentString
+               value = "self.messageLabel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -37,14 +45,6 @@
       </ContextState>
       <ContextState
          contextName = "-[FSAlertView tableView:numberOfRowsInSection:]:FSAlertView.m">
-      </ContextState>
-      <ContextState
-         contextName = "-[FSAlertView initWithTitle:message:tag:cancelButtonTitle:otherButtonTitles:]:FSAlertView.m">
-         <PersistentStrings>
-            <PersistentString
-               value = "NS_REQUIRES_NIL_TERMINATION">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>
