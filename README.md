@@ -88,7 +88,7 @@ How to use
 
 
 ##no Button
-If cancelButtonTitle and otherButtonTitles also be nil,the FSAlertView would be disappear after 3 seconds.
+If cancelButtonTitle and otherButtonTitles both be nil,the FSAlertView would be disappear after 3 seconds.
 
 ```objective-c
 
@@ -117,3 +117,21 @@ If cancelButtonTitle and otherButtonTitles also be nil,the FSAlertView would be 
 <img src="images/onlyBtns.png" height=300>
 
 
+##has Two Button
+```objective-c
+    
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
+                                                        message:@"the FSAlertView message: please click the buttons"
+                                                       delegate:self
+                                              cancelButtonTitle:@"cancel"
+                                              otherButtonTitles:@"button 1", nil];
+    // or
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
+                                                        message:@"the FSAlertView message: please click the buttons"
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"button 1",@"button 2", nil];
+    
+```
+<img src="images/2Btns_1.png" height=300>
+<img src="images/2Btns_2.png" height=300>
