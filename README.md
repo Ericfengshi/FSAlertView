@@ -87,7 +87,7 @@ How to use
 <img src="images/noCancel.png" height=300>
 
 
-##no Button
+##No Button
 If cancelButtonTitle and otherButtonTitles both be nil,the FSAlertView would be disappear after 3 seconds.
 
 ```objective-c
@@ -117,7 +117,7 @@ If cancelButtonTitle and otherButtonTitles both be nil,the FSAlertView would be 
 <img src="images/onlyBtns.png" height=300>
 
 
-##has Two Button
+##Has Two Button
 ```objective-c
     
     FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
