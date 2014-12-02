@@ -85,6 +85,8 @@
             tempHeight += height + originHeight + gapSpace_;
         }
         
+        self.btnList = [[[NSMutableArray alloc] init] autorelease];
+        
         if(otherButtonTitles){
             NSMutableArray *array = [NSMutableArray array];
             va_list args;
