@@ -56,7 +56,13 @@
 
 - (void)more{
     
-    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title" message:@"the FSAlertView message: please click the buttons" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"button 1",@"button 2",@"button 3",@"button 4",@"button 5",@"button 6",@"button 7",@"button 8",@"button 9",@"button 10", nil];
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
+                                                        message:@"the FSAlertView message: please click the buttons"
+                                                       delegate:self
+                                              cancelButtonTitle:@"cancel"
+                                              otherButtonTitles:@"button 1",@"button 2",@"button 3"
+                                                                ,@"button 4",@"button 5",@"button 6"
+                                                                ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
     
     
     moreAlert.tag = 0x1101;

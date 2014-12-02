@@ -24,7 +24,13 @@ How to use
 ```objective-c
 - (void)more{
     
-    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title" message:@"the FSAlertView message: please click the buttons" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"button 1",@"button 2",@"button 3",@"button 4",@"button 5",@"button 6",@"button 7",@"button 8",@"button 9",@"button 10", nil];
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
+                                                        message:@"the FSAlertView message: please click the buttons"
+                                                       delegate:self
+                                              cancelButtonTitle:@"cancel"
+                                              otherButtonTitles:@"button 1",@"button 2",@"button 3"
+                                                                ,@"button 4",@"button 5",@"button 6"
+                                                                ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
     
     moreAlert.tag = 0x1101;
     [moreAlert showInView:self.view];
@@ -41,7 +47,13 @@ How to use
 ##No Title
 ```objective-c
 
-    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:nil message:@"the FSAlertView message: please click the buttons" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"button 1",@"button 2",@"button 3",@"button 4",@"button 5",@"button 6",@"button 7",@"button 8",@"button 9",@"button 10", nil];
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:nil
+                                                        message:@"the FSAlertView message: please click the buttons"
+                                                       delegate:self
+                                              cancelButtonTitle:@"cancel"
+                                              otherButtonTitles:@"button 1",@"button 2",@"button 3"
+                                                                ,@"button 4",@"button 5",@"button 6"
+                                                                ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
     
 ```
 <img src="images/noTitle.png" height=300>
@@ -50,7 +62,13 @@ How to use
 ##No Message
 ```objective-c
 
-    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title" message:nil delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"button 1",@"button 2",@"button 3",@"button 4",@"button 5",@"button 6",@"button 7",@"button 8",@"button 9",@"button 10", nil];
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"cancel"
+                                              otherButtonTitles:@"button 1",@"button 2",@"button 3"
+                                                                ,@"button 4",@"button 5",@"button 6"
+                                                                ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
     
 ```
 <img src="images/noMessage.png" height=300>
@@ -59,7 +77,11 @@ How to use
 ##No Cancel
 ```objective-c
 
-    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title" message:@"the FSAlertView message: please click the buttons" delegate:self cancelButtonTitle:nil otherButtonTitles:@"button 1",@"button 2",@"button 3", nil];
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
+                                                        message:@"the FSAlertView message: please click the buttons"
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"button 1",@"button 2",@"button 3", nil];
 
 ```
 <img src="images/noCancel.png" height=300>
@@ -70,7 +92,11 @@ If cancelButtonTitle and otherButtonTitles also be nil,the FSAlertView would be 
 
 ```objective-c
 
-    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title" message:@"the FSAlertView message: please click the buttons" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:@"title"
+                                                        message:@"the FSAlertView message: please click the buttons"
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:nil];
 
 ```
 <img src="images/noBtn.png" height=300>
@@ -79,7 +105,13 @@ If cancelButtonTitle and otherButtonTitles also be nil,the FSAlertView would be 
 ##Only Button
 ```objective-c
     
-    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:nil message:nil delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"button 1",@"button 2",@"button 3",@"button 4",@"button 5",@"button 6",@"button 7",@"button 8",@"button 9",@"button 10", nil];
+    FSAlertView *moreAlert = [[FSAlertView alloc] initWithTitle:nil
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"cancel"
+                                              otherButtonTitles:@"button 1",@"button 2",@"button 3"
+                                                                ,@"button 4",@"button 5",@"button 6"
+                                                                ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
     
 ```
 <img src="images/onlyBtns.png" height=300>
