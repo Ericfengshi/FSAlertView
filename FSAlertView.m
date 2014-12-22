@@ -25,12 +25,13 @@
 @synthesize hasTwoBtns = _hasTwoBtns;
 
 -(void)dealloc{
-    [super dealloc];
+
     self.titleLabel = nil;
     self.messageLabel = nil;
     self.btnTableView = nil;
     self.btnList = nil;
     self.cancelButtonTitle = nil;
+    [super dealloc];
 }
 
 #pragma mark -
