@@ -16,8 +16,9 @@
 @synthesize textField = _textField;
 
 -(void)dealloc{
-    [super dealloc];
+
     self.textField = nil;
+    [super dealloc];
 }
 
 - (void)viewDidUnload
