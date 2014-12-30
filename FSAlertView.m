@@ -1,6 +1,6 @@
 //
 //  FSAlertView.m
-//  FSAlertView
+//  FSAlertView https://github.com/Ericfengshi/FSAlertView
 //
 //  Created by fengs on 14-11-28.
 //  Copyright (c) 2014年 fengs. All rights reserved.
@@ -17,6 +17,8 @@
 
 @implementation FSAlertView
 @synthesize delegate = _delegate;
+@synthesize window;
+@synthesize shadowView = _shadowView;
 @synthesize titleLabel = _titleLabel;
 @synthesize messageLabel = _messageLabel;
 @synthesize btnTableView = _btnTableView;
@@ -24,8 +26,10 @@
 @synthesize cancelButtonTitle = _cancelButtonTitle;
 @synthesize hasTwoBtns = _hasTwoBtns;
 
+
 -(void)dealloc{
 
+    self.shadowView = nil;
     self.titleLabel = nil;
     self.messageLabel = nil;
     self.btnTableView = nil;
@@ -51,8 +55,21 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        
+        id<UIApplicationDelegate> appDelegate = [[UIApplication sharedApplication] delegate];
+        if ([appDelegate respondsToSelector:@selector(window)]){
+            window = [appDelegate performSelector:@selector(window)];
+        }else{
+            window = [[UIApplication sharedApplication] keyWindow];
+        }
+        
+        self.shadowView = [[[UIView alloc] initWithFrame:window.frame] autorelease];
+        self.shadowView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+
         self.delegate = delegate;
+        
         CGFloat tempHeight = 0;
+        /*title*/
         if(title){
             UILabel *titleLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, cellWidthSpace_, cellHeightSpace_)] autorelease];
             titleLabel.backgroundColor = [UIColor clearColor];
@@ -65,7 +82,7 @@
             self.titleLabel = titleLabel;
             tempHeight = self.titleLabel.frame.size.height;
         }
-        
+        /*message*/
         if(message){
             // messageLabel default height：33.0f
             CGFloat height = [self resizeViewHeight:message width:cellWidthSpace_- gapSpace_*2 height:33];
@@ -85,7 +102,7 @@
             self.messageLabel = messageLabel;
             tempHeight += height + originHeight + gapSpace_;
         }
-        
+        /*buttons*/
         self.btnList = [[[NSMutableArray alloc] init] autorelease];
         
         if(otherButtonTitles){
@@ -107,15 +124,15 @@
         
         self.hasTwoBtns = self.btnList.count == 2;
         
-        CGFloat tableViewHeight = self.btnList.count*44 + tempHeight;
+        CGFloat tableViewHeight = self.btnList.count*cellHeightSpace_ + tempHeight;
         if(self.hasTwoBtns){
-            tableViewHeight = 44 + tempHeight;
+            tableViewHeight = cellHeightSpace_ + tempHeight;
         }
-        if(tableViewHeight > [UIScreen mainScreen].applicationFrame.size.height - 44.0f*2 - headerFooterSpace_*2){ // navigationbar-height: 44.0f
-            tableViewHeight = [UIScreen mainScreen].applicationFrame.size.height - 44.0f*2 - headerFooterSpace_*2;
+        if(tableViewHeight > [UIScreen mainScreen].applicationFrame.size.height - 44.0 - headerFooterSpace_*2 - 44.0){ //The Top navigationbar height: 44.0f,  the bottom of the symmetry height:44.0
+            tableViewHeight = [UIScreen mainScreen].applicationFrame.size.height - 44.0 - headerFooterSpace_*2 - 44.0;
         }
-        
-        UITableView *tableView = [[[UITableView alloc] initWithFrame:CGRectMake(leftRightSpace_, ([UIScreen mainScreen].applicationFrame.size.height - tableViewHeight-44.0f*2)/2, cellWidthSpace_, tableViewHeight) style:UITableViewStylePlain] autorelease];
+        /*UITableView*/
+        UITableView *tableView = [[[UITableView alloc] initWithFrame:CGRectMake(leftRightSpace_, 0, cellWidthSpace_, tableViewHeight) style:UITableViewStylePlain] autorelease];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         tableView.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.8];;
         tableView.scrollEnabled = YES;
@@ -132,6 +149,7 @@
         self.btnTableView = tableView;
         
         [self addSubview:self.btnTableView];
+        [self setFrame:CGRectMake(0, 20+([UIScreen mainScreen].applicationFrame.size.height - tableViewHeight)/2, 0, tableViewHeight)];// The status bar height:20.0f
     }
     return self;
 }
@@ -286,13 +304,12 @@
         // click the cancelButton
         if(self.cancelButtonTitle && indexPath.row == self.btnList.count+1){
             [self hideView];
-            return;
-        }
-        
-        // delegate event
-        if ([self.delegate respondsToSelector:@selector(fsAlertView:clickedButtonAtIndex:)]) {
-            [self hideView];
-            [self.delegate fsAlertView:self clickedButtonAtIndex:indexPath.row-2+1];
+        }else{
+            // delegate event
+            if ([self.delegate respondsToSelector:@selector(fsAlertView:clickedButtonAtIndex:)]) {
+                [self hideView];
+                [self.delegate fsAlertView:self clickedButtonAtIndex:indexPath.row-2+1];
+            }
         }
     }
 }
@@ -322,13 +339,14 @@
 -(void)rightBtnClick:(UIButton *)btn{
     if (self.cancelButtonTitle) {
         [self hideView];
-        return;
+    }else{
+        // delegate
+        if ([self.delegate respondsToSelector:@selector(fsAlertView:clickedButtonAtIndex:)]) {
+            [self hideView];
+            [self.delegate fsAlertView:self clickedButtonAtIndex:2];
+        }
     }
-    // delegate event
-    if ([self.delegate respondsToSelector:@selector(fsAlertView:clickedButtonAtIndex:)]) {
-        [self hideView];
-        [self.delegate fsAlertView:self clickedButtonAtIndex:2];
-    }
+
 }
 
 #pragma mark -
@@ -336,43 +354,16 @@
 
 /**
  * UIView(FSAlertView) show
- * @param view:
-    UIViewController.view
  * @return
  */
-- (void)showInView:(UIView *)view{
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^(void){
-        // add UIViewController.view shadow
-        UIView *shadowView = [[[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
-        shadowView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-        shadowView.userInteractionEnabled = NO;
-        shadowView.tag = 1024;
-        [view addSubview:shadowView];
-        [view bringSubviewToFront:shadowView];
-        
-        // UIView(FSAlertView) show
-        [self setFrame:[UIScreen mainScreen].bounds];
-        [view addSubview:self];
-        [view bringSubviewToFront:self];
-        
-        //  navigationItem disable
-        UIViewController *viewController = [self viewController];
-        viewController.navigationItem.leftBarButtonItem.enabled = NO;
-        viewController.navigationItem.rightBarButtonItem.enabled = NO;
-        
-        // except of UIView(FSAlertView) be disable
-        for (UIView *subView in [view subviews]) {
-            if (![self isEqual:subView]) {
-                subView.userInteractionEnabled = NO;
-            }
-        }
-        
+- (void)showInView{
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^(void){
+
+        [window addSubview:self.shadowView];
+        [self setFrame:CGRectMake(0, 20+([UIScreen mainScreen].applicationFrame.size.height - self.btnTableView.frame.size.height)/2, window.frame.size.width, self.btnTableView.frame.size.height)];
+        [self.shadowView addSubview:self];
         if (self.btnList.count == 0) {
-            [NSTimer scheduledTimerWithTimeInterval:3.0f
-                                             target:self
-                                           selector:@selector(hideView)
-                                           userInfo:nil
-                                            repeats:NO];
+            [self performSelector:@selector(hideView) withObject:nil afterDelay:3.0];
         }
     } completion:^(BOOL isFinished){
         
@@ -385,40 +376,15 @@
  */
 -(void)hideView
 {
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^(void){
-        // remove UIViewController.view shadow, UIViewController.view available
-        for (UIView *subView in [[self superview] subviews]) {
-            if (subView.tag == 1024) {
-                [subView removeFromSuperview];
-            }else{
-                subView.userInteractionEnabled = YES;
-            }
-        }
-        // FSAlertView hide
-        [self setFrame:CGRectMake(0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-        //  navigationItem available
-        UIViewController *viewController = [self viewController];
-        viewController.navigationItem.leftBarButtonItem.enabled = YES;
-        viewController.navigationItem.rightBarButtonItem.enabled = YES;
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^(void){
+
+        [self setFrame:CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height)];
+        self.shadowView.backgroundColor = [UIColor clearColor];
         
     } completion:^(BOOL isFinished){
-        
+        [self.shadowView removeFromSuperview];
+        self.shadowView = nil;
     }];
-}
-
-/**
- * find the UIViewController by UIView
- * @return
- */
-- (UIViewController *)viewController {
-    UIResponder *responder = self;
-    while (![responder isKindOfClass:[UIViewController class]]) {
-        responder = [responder nextResponder];
-        if (nil == responder) {
-            break;
-        }
-    }
-    return (UIViewController *)responder;
 }
 
 /**

@@ -48,6 +48,7 @@
                                                                       action:@selector(more)];
     self.navigationItem.rightBarButtonItem = barBtnItemRight;
     [barBtnItemRight release];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -62,12 +63,11 @@
                                                        delegate:self
                                               cancelButtonTitle:@"cancel"
                                               otherButtonTitles:@"button 1",@"button 2",@"button 3"
-                                                                ,@"button 4",@"button 5",@"button 6"
-                                                                ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
-    
-    
+                              ,@"button 4",@"button 5",@"button 6"
+                              ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
+
     moreAlert.tag = 0x1101;
-    [moreAlert showInView:self.view];
+    [moreAlert showInView];
     [moreAlert release];
 }
 

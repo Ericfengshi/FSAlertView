@@ -1,8 +1,7 @@
 FSAlertView
 ===========
 
-Below IOS 7,In UIAlertView if the count of otherButtonTitles is above 8,the UI of UIAlertView would be confusion and the buttons do not automatically scroll.So I create a custom UIView replace UIAlertView,the UI would be placed between Top Bar and Bottom Bar and automatically scroll well.
-
+Customization UIView replace UIAlertView can include a lot of Buttons,the FSAlertView would be placed between Top Bar and Bottom Bar and automatically scroll well.
 <img src="images/default.png" height=300 border=1>
 
 Features
@@ -15,8 +14,8 @@ Features
 What you need
 ---
 
-* FSAlertView.h
-* FSAlertView.m
+* [FSAlertView.h](https://github.com/Ericfengshi/FSAlertView/blob/master/FSAlertView.h)
+* [FSAlertView.m](https://github.com/Ericfengshi/FSAlertView/blob/master/FSAlertView.m)
 
 How to use
 ---  
@@ -32,8 +31,7 @@ How to use
                                                                 ,@"button 4",@"button 5",@"button 6"
                                                                 ,@"button 7",@"button 8",@"button 9",@"button 10", nil];
     
-    moreAlert.tag = 0x1101;
-    [moreAlert showInView:self.view];
+    [moreAlert showInView];
     [moreAlert release];
 }
 

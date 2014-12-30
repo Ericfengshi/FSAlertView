@@ -1,6 +1,6 @@
 //
 //  FSAlertView.h
-//  FSAlertView
+//  FSAlertView https://github.com/Ericfengshi/FSAlertView
 //
 //  Created by fengs on 14-11-28.
 //  Copyright (c) 2014年 fengs. All rights reserved.
@@ -16,6 +16,8 @@
 @interface FSAlertView : UIView<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,assign) id delegate;
+@property (nonatomic,retain) UIWindow *window;
+@property (nonatomic,retain) UIView *shadowView;
 @property (nonatomic,retain) UILabel *titleLabel;
 @property (nonatomic,retain) UILabel *messageLabel;
 @property (nonatomic,retain) UITableView *btnTableView;
@@ -24,5 +26,5 @@
 @property (nonatomic,assign) BOOL hasTwoBtns;
 
 - (id)initWithTitle:(NSString*)title message:(NSString*)message delegate:(id /*<FSAlertViewDelegate>*/)delegate cancelButtonTitle:(NSString*)cancelButtonTitle otherButtonTitles:(NSString*)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;
-- (void)showInView:(UIView *)view;
+- (void)showInView;
 @end
