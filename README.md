@@ -1,7 +1,7 @@
 FSAlertView
 ===========
 
-Customization UIView replace UIAlertView can include a lot of Buttons,the FSAlertView would be placed between Top Bar and Bottom Bar and automatically scroll well.
+Customization UIView replace UIAlertView can include a lot of Buttons,the FSAlertView would be placed between Top Bar and Bottom Bar and automatically scroll well.  
 <img src="images/default.png" height=300 border=1>
 
 Features
