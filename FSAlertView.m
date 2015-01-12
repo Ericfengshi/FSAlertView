@@ -132,12 +132,11 @@
             tableViewHeight = [UIScreen mainScreen].applicationFrame.size.height - 44.0 - headerFooterSpace_*2 - 44.0;
         }
         /*UITableView*/
-        UITableView *tableView = [[[UITableView alloc] initWithFrame:CGRectMake(leftRightSpace_, 0, cellWidthSpace_, tableViewHeight) style:UITableViewStylePlain] autorelease];
+        UITableView *tableView = [[[UITableView alloc] initWithFrame:CGRectMake(0, 0, cellWidthSpace_, tableViewHeight) style:UITableViewStylePlain] autorelease];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.8];;
+        tableView.backgroundColor = [UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:0.8];
         tableView.scrollEnabled = YES;
-        UIView *footView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-        tableView.tableFooterView = footView;
+        tableView.tableFooterView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
         tableView.dataSource = self;
         tableView.delegate = self;
         
@@ -149,7 +148,7 @@
         self.btnTableView = tableView;
         
         [self addSubview:self.btnTableView];
-        [self setFrame:CGRectMake(0, 20+([UIScreen mainScreen].applicationFrame.size.height - tableViewHeight)/2, 0, tableViewHeight)];// The status bar height:20.0f
+        [self setFrame:CGRectMake(leftRightSpace_, 20+([UIScreen mainScreen].applicationFrame.size.height - tableViewHeight)/2, cellWidthSpace_, tableViewHeight)];// The status bar height:20.0f
     }
     return self;
 }
@@ -205,10 +204,7 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 
                 if (!self.messageLabel) {
-                    // add underline
-                    UIImageView *imgView = [[[UIImageView alloc]initWithFrame:CGRectMake( 0, cell.frame.size.height-1, cellWidthSpace_, 1)] autorelease];
-                    imgView.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
-                    [cell addSubview:imgView];
+                    [cell addSubview:[self drawImageViewLine:CGRectMake( 0, cell.frame.size.height-1, cellWidthSpace_, 1)]];
                 }
 
             }
@@ -218,10 +214,7 @@
                 UIView *cellView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, cellWidthSpace_, self.messageLabel.frame.origin.y + self.messageLabel.frame.size.height + gapSpace_)] autorelease];
                 [cellView addSubview:self.messageLabel];
                 
-                // add underline
-                UIImageView *imgView = [[[UIImageView alloc]initWithFrame:CGRectMake( 0, cellView.frame.size.height-1, cellWidthSpace_, 1)] autorelease];
-                imgView.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
-                [cellView addSubview:imgView];
+                [cellView addSubview:[self drawImageViewLine:CGRectMake( 0, cellView.frame.size.height-1, cellWidthSpace_, 1)]];
                 
                 cell.userInteractionEnabled = NO;
                 cell.accessoryView = cellView;
@@ -256,15 +249,8 @@
                     [rightBtn addTarget:self action:@selector(rightBtnClick:) forControlEvents:UIControlEventTouchUpInside];
                     [cellView addSubview:rightBtn];
                     
-                    // add underline 
-                    UIImageView *imgView = [[[UIImageView alloc]initWithFrame:CGRectMake( 0, cellHeightSpace_-1, cellWidthSpace_, 1)] autorelease];
-                    imgView.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
-                    [cellView addSubview:imgView];
-                    
-                    // add underline Vertical
-                    UIImageView *imgViewVertical = [[[UIImageView alloc] initWithFrame:CGRectMake( cellWidthSpace_/2, 0, 1, cellHeightSpace_)] autorelease];
-                    imgViewVertical.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
-                    [cellView addSubview:imgViewVertical];
+                    [cellView addSubview:[self drawImageViewLine:CGRectMake( 0, cellHeightSpace_-1, cellWidthSpace_, 1)]];
+                    [cellView addSubview:[self drawImageViewLine:CGRectMake( cellWidthSpace_/2, 0, 1, cellHeightSpace_)]];
                     
                     cell.accessoryView = cellView;
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -283,10 +269,7 @@
                         cell.textLabel.textAlignment = UITextAlignmentCenter;
                         cell.textLabel.backgroundColor = [UIColor clearColor];
                         
-                        // add underline
-                        UIImageView *imgView = [[[UIImageView alloc]initWithFrame:CGRectMake( 0, cellHeightSpace_-1, cellWidthSpace_, 1)] autorelease];
-                        imgView.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
-                        [cell addSubview:imgView];
+                        [cell addSubview:[self drawImageViewLine:CGRectMake( 0, cellHeightSpace_-1, cellWidthSpace_, 1)]];
                         
                     }
                 }
@@ -360,7 +343,7 @@
     [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^(void){
 
         [window addSubview:self.shadowView];
-        [self setFrame:CGRectMake(0, 20+([UIScreen mainScreen].applicationFrame.size.height - self.btnTableView.frame.size.height)/2, window.frame.size.width, self.btnTableView.frame.size.height)];
+        [self setFrame:CGRectMake(leftRightSpace_, 20+([UIScreen mainScreen].applicationFrame.size.height - self.btnTableView.frame.size.height)/2, cellWidthSpace_, self.btnTableView.frame.size.height)];
         [self.shadowView addSubview:self];
         if (self.btnList.count == 0) {
             [self performSelector:@selector(hideView) withObject:nil afterDelay:3.0];
@@ -378,7 +361,7 @@
 {
     [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^(void){
 
-        [self setFrame:CGRectMake(0, [UIScreen mainScreen].applicationFrame.size.height, [UIScreen mainScreen].applicationFrame.size.width, [UIScreen mainScreen].applicationFrame.size.height)];
+        [self setFrame:CGRectMake(leftRightSpace_, [UIScreen mainScreen].applicationFrame.size.height, cellWidthSpace_, self.btnTableView.frame.size.height)];
         self.shadowView.backgroundColor = [UIColor clearColor];
         
     } completion:^(BOOL isFinished){
@@ -401,5 +384,18 @@
     CGSize constraint = CGSizeMake(width, 2000.0f);
     CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:13.0f] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
     return size.height>height?size.height:height;
+}
+
+
+/**
+ * add under/vertical line for UIControl
+ * @param frame
+ * @return UIImageView
+ */
+-(UIImageView*)drawImageViewLine:(CGRect)frame{
+    
+    UIImageView *imgView = [[UIImageView alloc]initWithFrame:frame];
+    imgView.backgroundColor = [UIColor colorWithRed:200/255.0f green:200/255.0f blue:200/255.0f alpha:1.0];
+    return [imgView autorelease];
 }
 @end
