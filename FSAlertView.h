@@ -13,7 +13,7 @@
 - (void)fsAlertView:(UIView*)fsAlertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 @end
 
-@interface FSAlertView : UIView<UITableViewDataSource,UITableViewDelegate>
+@interface FSAlertView : UIView<UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 
 @property(nonatomic,assign) id delegate;
 @property (nonatomic,retain) UIWindow *window;

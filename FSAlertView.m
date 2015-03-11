@@ -65,6 +65,11 @@
         
         self.shadowView = [[[UIView alloc] initWithFrame:window.frame] autorelease];
         self.shadowView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+        UITapGestureRecognizer *tapTouches = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTouches:)];
+        [self.shadowView addGestureRecognizer:tapTouches];
+        tapTouches.delegate = self;
+        tapTouches.cancelsTouchesInView = NO;
+        [tapTouches release];
 
         self.delegate = delegate;
         
@@ -151,6 +156,21 @@
         [self setFrame:CGRectMake(leftRightSpace_, 20+([UIScreen mainScreen].applicationFrame.size.height - tableViewHeight)/2, cellWidthSpace_, tableViewHeight)];// The status bar height:20.0f
     }
     return self;
+}
+
+#pragma mark -
+#pragma mark - UIGestureRecognizerDelegate
+-(void)tapTouches:(UITapGestureRecognizer*)recognizer
+{
+    [self hideView];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    if(touch.view != self.shadowView){
+        return NO;
+    }else
+        return YES;
 }
 
 #pragma mark -
